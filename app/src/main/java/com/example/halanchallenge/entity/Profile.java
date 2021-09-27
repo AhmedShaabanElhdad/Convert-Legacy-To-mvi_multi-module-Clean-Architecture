@@ -1,4 +1,4 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge.entity;
 
 public class Profile{
     public String username;

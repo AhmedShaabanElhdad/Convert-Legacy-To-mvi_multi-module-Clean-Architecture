@@ -1,4 +1,4 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge.feature.product.product_list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.halanchallenge.R;
+import com.example.halanchallenge.entity.Product;
+import com.example.halanchallenge.feature.product.product_details.ProductDetailsActivity;
 
 import java.util.List;
 

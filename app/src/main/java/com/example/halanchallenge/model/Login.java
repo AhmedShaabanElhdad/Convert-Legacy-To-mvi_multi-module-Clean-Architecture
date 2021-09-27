@@ -1,4 +1,4 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge.model;
 
 import android.content.Context;
 

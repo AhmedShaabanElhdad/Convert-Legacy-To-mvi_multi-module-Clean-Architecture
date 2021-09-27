@@ -1,4 +1,4 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge.feature.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.halanchallenge.R;
+import com.example.halanchallenge.model.Login;
 
 public class LoginActivity extends AppCompatActivity {
 

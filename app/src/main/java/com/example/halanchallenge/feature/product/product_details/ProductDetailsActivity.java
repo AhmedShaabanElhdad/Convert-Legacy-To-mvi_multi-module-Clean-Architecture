@@ -1,9 +1,7 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge.feature.product.product_details;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -12,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.arindicatorview.ARIndicatorView;
+import com.example.halanchallenge.R;
+import com.example.halanchallenge.entity.Product;
 
 
 public class ProductDetailsActivity extends AppCompatActivity {

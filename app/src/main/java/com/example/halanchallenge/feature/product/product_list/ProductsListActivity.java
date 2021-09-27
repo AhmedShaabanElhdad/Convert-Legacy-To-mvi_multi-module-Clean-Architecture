@@ -1,25 +1,22 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge.feature.product.product_list;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.bumptech.glide.Glide;
+import com.example.halanchallenge.R;
+import com.example.halanchallenge.model.GetProduct;
+import com.example.halanchallenge.response.LoginResponse;
+import com.example.halanchallenge.response.ProductsList;
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
-public class ProductsListActivity extends AppCompatActivity {
+public class ProductsListActivity extends AppCompatActivity implements GetProductListener {
 
     String response;
 
@@ -66,33 +63,9 @@ public class ProductsListActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         productsListRV.setLayoutManager(mLayoutManager);
 
-        AndroidNetworking.initialize(getApplicationContext());
-        AndroidNetworking.get("https://assessment-sn12.halan.io/products")
-                .addHeaders("Authorization", "Bearer " + loginResponse.token)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        productsList = gson.fromJson(String.valueOf(response), ProductsList.class);
-                        productsListAdapter = new ProductsAdapter(getBaseContext(), productsList.products);
-                        productsListAdapter.notifyDataSetChanged();
-                        productsListRV.setAdapter(productsListAdapter);
-                        productsListAdapter.setClickListener(new ProductsAdapter.ItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        Log.e("FastError", error.getMessage());
-                    }
-                });
+        //todo move to model in another function
+        GetProduct productModel = new GetProduct();
+        productModel.getProduct(loginResponse.token,getApplicationContext(),this);
 
         userName.setText(loginResponse.profile.name);
         phoneNumber.setText(loginResponse.profile.phone);
@@ -102,4 +75,14 @@ public class ProductsListActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void saveList(ProductsList list) {
+        this.productsList = list;
+        productsListAdapter = new ProductsAdapter(getBaseContext(), productsList.products);
+        productsListAdapter.notifyDataSetChanged();
+        productsListRV.setAdapter(productsListAdapter);
+        productsListAdapter.setClickListener((view, position) -> {
+
+        });
+    }
 }

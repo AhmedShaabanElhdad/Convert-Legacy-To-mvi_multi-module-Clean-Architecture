@@ -1,4 +1,4 @@
-package com.example.halanchallenge;
+package com.example.halanchallenge.model;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,13 +20,15 @@ import java.net.URL;
 import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
+import com.example.halanchallenge.feature.product.product_list.ProductsListActivity;
+
 public class LoginTask extends AsyncTask<String, Void, String> {
 
 
     private String username, password;
     private Context context;
 
-    LoginTask(Context context) {
+    public LoginTask(Context context) {
         this.context = context;
     }
 
