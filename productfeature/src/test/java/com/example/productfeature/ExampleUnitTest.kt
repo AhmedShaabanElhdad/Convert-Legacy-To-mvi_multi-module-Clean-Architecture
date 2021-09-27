@@ -1,4 +1,4 @@
-package com.example.feature
+package com.example.productfeature
 
 import org.junit.Test
 
