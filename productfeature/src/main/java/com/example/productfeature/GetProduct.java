@@ -1,4 +1,4 @@
-package com.example.halanchallenge.model;
+package com.example.productfeature;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.data.response.ProductsList;
 import com.example.productfeature.productlist.GetProductListener;
+import com.example.productfeature.productlist.ProductsAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 // Call async LoginTask
 public class GetProduct {
     ProductsList productsList;
+    ProductsAdapter productsListAdapter;
 
     public void getProduct(String token, Context context, GetProductListener listener) {
         AndroidNetworking.initialize(context.getApplicationContext());

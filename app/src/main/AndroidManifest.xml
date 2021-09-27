@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HalanChallenge">
 
-        <activity android:name=".feature.product.product_details.ProductDetailsActivity"/>
+        <activity android:name="com.example.productfeature.productdetails.ProductDetailsActivity"/>
         <activity android:name=".feature.product.product_list.ProductsListActivity" />
         <activity android:name=".feature.login.LoginActivity">
             <intent-filter>
