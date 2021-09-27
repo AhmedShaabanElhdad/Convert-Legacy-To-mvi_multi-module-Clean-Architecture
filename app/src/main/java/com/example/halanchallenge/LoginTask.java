@@ -8,31 +8,38 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class LoginTask extends AsyncTask<String, Void, Boolean> {
+public class LoginTask extends AsyncTask<String, Void, String> {
 
 
     private String username, password;
     private Context context;
 
-    LoginTask(Context context){
-        this.context =context;
+    LoginTask(Context context) {
+        this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
-        //TODO: Before process async task (show progress bar, loader, fade..)
+
     }
 
     @Override
-    protected Boolean doInBackground(String... params) {
+    protected String doInBackground(String... params) {
+
+        String result;
+        String inputLine;
 
         //Set username and password
         this.username = params[0];
@@ -56,12 +63,24 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
             writer.close();
             connection.connect();
 
-
             int status = connection.getResponseCode();
+
+            InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
+            BufferedReader reader = new BufferedReader(streamReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((inputLine = reader.readLine()) != null) {
+                stringBuilder.append(inputLine);
+            }
+            reader.close();
+            streamReader.close();
+            result = stringBuilder.toString();
+
+
             switch (status) {
                 case 200:
-
-                    this.onPostExecute(true);
+                    return result;
+                default:
+                    return null;
             }
         } catch (java.net.MalformedURLException e) {
             Log.w(TAG, "Exception while constructing URL" + e.getMessage());
@@ -69,15 +88,15 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
             Log.w(TAG, "Exception occured while logging in: " + e.getMessage());
         }
 
-        return false;
+        return null;
     }
 
     @Override
-    protected void onPostExecute(Boolean success) {
-        //TODO: After async task finished based on task success
-        if (success){
+    protected void onPostExecute(String result) {
+        if (result != null) {
             Intent myIntent = new Intent(context, ProductsListActivity.class);
             myIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            myIntent.putExtra("RESPONSE", result);
             context.startActivity(myIntent);
         }
 
