@@ -1,64 +1,45 @@
-package com.example.productfeature.productdetails;
+package com.example.productfeature.productdetails
 
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.productfeature.R
+import com.bumptech.glide.Glide
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.example.productfeature.R;
-
-import java.util.List;
-
-public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder> {
-
-    private List<String> mData;
-    private LayoutInflater mInflater;
-    private Context context;
-
-    // data is passed into the constructor
-    ImagesAdapter(Context context, List<String> data) {
-        this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
-        this.context = context;
-    }
+class ImagesAdapter internal constructor(context: Context, data: List<String>) :
+    RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
+    private val mData: List<String> = data
+    private val mInflater: LayoutInflater = LayoutInflater.from(context)
+    private val context: Context = context
 
     // inflates the row layout from xml when needed
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.image_view_item, parent, false);
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = mInflater.inflate(R.layout.image_view_item, parent, false)
+        return ViewHolder(view)
     }
 
     // binds the data to the TextView in each row
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        String item = mData.get(position);
-        if (item != null){
-            Glide.with(holder.productImageView.getContext()).load(item).into(holder.productImageView);
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = mData[position]
+        Glide.with(holder.productImageView.context).load(item).into(holder.productImageView)
     }
 
     // total number of rows
-    @Override
-    public int getItemCount() {
-        return mData.size();
+    override fun getItemCount(): Int {
+        return mData.size
     }
 
-
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView productImageView;
+    inner class ViewHolder internal constructor(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        var productImageView: ImageView
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            productImageView = itemView.findViewById(R.id.product_image_IV);
+        init {
+            productImageView = itemView.findViewById(R.id.product_image_IV)
         }
     }
 
 }
-

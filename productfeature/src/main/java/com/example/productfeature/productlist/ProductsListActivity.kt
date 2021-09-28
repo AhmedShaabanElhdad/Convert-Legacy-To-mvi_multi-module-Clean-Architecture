@@ -1,88 +1,66 @@
-package com.example.productfeature.productlist;
+package com.example.productfeature.productlist
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import com.example.data.response.ProductsList
+import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import com.example.productfeature.R
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.data.response.LoginResponse
+import com.bumptech.glide.Glide
+import com.example.productfeature.GetProduct
+import com.example.productfeature.productlist.ProductsAdapter.ItemClickListener
+import com.google.gson.Gson
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+class ProductsListActivity : AppCompatActivity(), GetProductListener {
 
-import com.bumptech.glide.Glide;
-import com.example.data.response.LoginResponse;
-import com.example.data.response.ProductsList;
-import com.example.productfeature.GetProduct;
-import com.example.productfeature.R;
-import com.google.gson.Gson;
-
-public class ProductsListActivity extends AppCompatActivity implements GetProductListener {
-
-    String response;
-
-    TextView userName, phoneNumber, email;
-    RecyclerView productsListRV;
-    ImageView userIV,logoutIV;
-
-    LoginResponse loginResponse;
-    ProductsList productsList;
-
-    ProductsAdapter productsListAdapter;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products_list);
+    var productsList: ProductsList? = null
+    var productsListRV: RecyclerView? = null
+    var productsListAdapter: ProductsAdapter? = null
+    var response: String? = null
 
 
-        Bundle bundle = getIntent().getExtras();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_products_list)
+        val loginResponse: LoginResponse
+        val bundle = intent.extras
         if (bundle != null) {
-            response = bundle.getString("RESPONSE");
+            response = bundle.getString("RESPONSE")
         }
-
-        Gson gson = new Gson();
-        loginResponse = gson.fromJson(response, LoginResponse.class);
-
-        userName = findViewById(R.id.username_tv);
-        phoneNumber = findViewById(R.id.phone_number_tv);
-        email = findViewById(R.id.email_tv);
-        userIV= findViewById(R.id.user_iv);
-        logoutIV = findViewById(R.id.logoutIV);
-
-        Glide.with(this).load(loginResponse.profile.image).into(userIV);
-
-        productsListRV = findViewById(R.id.products_list_rv);
-
-        logoutIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        productsListRV.setLayoutManager(mLayoutManager);
+        val gson = Gson()
+        loginResponse = gson.fromJson(response, LoginResponse::class.java)
+        val userName: TextView = findViewById(R.id.username_tv)
+        val phoneNumber: TextView = findViewById(R.id.phone_number_tv)
+        val email: TextView = findViewById(R.id.email_tv)
+        val userIV: ImageView = findViewById(R.id.user_iv)
+        val logoutIV: ImageView = findViewById(R.id.logoutIV)
+        Glide.with(this).load(loginResponse.profile.image).into(userIV)
+        productsListRV = findViewById(R.id.products_list_rv)
+        logoutIV.setOnClickListener { finish() }
+        val mLayoutManager = LinearLayoutManager(applicationContext)
+        productsListRV?.layoutManager = mLayoutManager
 
         //todo move to model in another function
-        GetProduct productModel = new GetProduct();
-        productModel.getProduct(loginResponse.token,getApplicationContext(),this);
-
-        userName.setText(loginResponse.profile.name);
-        phoneNumber.setText(loginResponse.profile.phone);
-        email.setText(loginResponse.profile.email);
-
-
+        val productModel = GetProduct()
+        productModel.getProduct(loginResponse.token, applicationContext, this)
+        userName.text = loginResponse.profile.name
+        phoneNumber.text = loginResponse.profile.phone
+        email.text = loginResponse.profile.email
     }
 
+    override fun saveList(list: ProductsList) {
+        productsList = list
+        productsListAdapter = ProductsAdapter(baseContext, productsList!!.products)
+        productsListAdapter!!.notifyDataSetChanged()
+        productsListRV!!.adapter = productsListAdapter
+        productsListAdapter!!.setClickListener(object : ItemClickListener {
+            override fun onItemClick(view: View?, position: Int) {
 
-    @Override
-    public void saveList(ProductsList list) {
-        this.productsList = list;
-        productsListAdapter = new ProductsAdapter(getBaseContext(), productsList.products);
-        productsListAdapter.notifyDataSetChanged();
-        productsListRV.setAdapter(productsListAdapter);
-        productsListAdapter.setClickListener((view, position) -> {
-
-        });
+            }
+        })
     }
 }

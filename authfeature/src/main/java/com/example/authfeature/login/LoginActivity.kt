@@ -1,40 +1,28 @@
-package com.example.authfeature.login;
+package com.example.authfeature.login
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.EditText
+import com.example.authfeature.Login
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import com.example.authfeature.R
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+class LoginActivity : AppCompatActivity() {
 
-import com.example.authfeature.Login;
-import com.example.authfeature.R;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
-public class LoginActivity extends AppCompatActivity {
+        val userNameEt: EditText = findViewById(R.id.username_et)
+        val passwordEt: EditText = findViewById(R.id.password_et)
+        val loginBtn: Button = findViewById(R.id.login_button)
 
-    EditText userNameEt, passwordEt;
-    Button loginBtn;
-    Login login;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        userNameEt = findViewById(R.id.username_et);
-        passwordEt = findViewById(R.id.password_et);
-        loginBtn = findViewById(R.id.login_button);
-
-        login = new Login();
-
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login.login(userNameEt.getText().toString(), passwordEt.getText().toString(),getApplicationContext());
-            }
-        });
-
+        val login = Login()
+        loginBtn.setOnClickListener(View.OnClickListener {
+            login!!.login(
+                userNameEt!!.getText().toString(), passwordEt.getText().toString(), applicationContext
+            )
+        })
     }
 }
-
