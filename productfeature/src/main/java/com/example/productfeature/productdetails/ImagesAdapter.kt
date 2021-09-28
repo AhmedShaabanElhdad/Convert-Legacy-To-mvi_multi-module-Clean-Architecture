@@ -35,11 +35,8 @@ class ImagesAdapter internal constructor(context: Context, data: List<String>) :
     // stores and recycles views as they are scrolled off screen
     inner class ViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        var productImageView: ImageView
+        var productImageView: ImageView = itemView.findViewById(R.id.product_image_IV)
 
-        init {
-            productImageView = itemView.findViewById(R.id.product_image_IV)
-        }
     }
 
 }
