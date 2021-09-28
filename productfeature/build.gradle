@@ -16,6 +16,10 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -33,6 +37,7 @@ android {
 
 dependencies {
 
+//    kapt "com.android.databinding:compiler:3.0.0-beta1"
     implementation project(":common_ui")
     implementation project(":navigation")
     implementation project(":domain")

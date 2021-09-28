@@ -11,14 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HalanChallenge">
-
-        <activity android:name="com.example.productfeature.productdetails.ProductDetailsActivity"/>
-        <activity android:name=".feature.product.product_list.ProductsListActivity" />
-        <activity android:name=".feature.login.LoginActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.example.productfeature.productdetails.ProductDetailsActivity" />
+        <activity android:name="com.example.productfeature.productlist.ProductsListFragment" />
+        <activity android:name="com.example.authfeature.login.LoginFragment">
+
         </activity>
     </application>
 
