@@ -1,5 +1,6 @@
 package com.example.productfeature.productlist
 
+import android.content.Intent
 import com.example.data.response.ProductsList
 import android.os.Bundle
 import android.view.View
@@ -10,11 +11,13 @@ import com.example.productfeature.R
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.response.LoginResponse
 import com.bumptech.glide.Glide
 import com.example.productfeature.GetProduct
+import com.example.productfeature.productdetails.ProductDetailsFragment
 import com.example.productfeature.productlist.ProductsAdapter.ItemClickListener
 import com.google.gson.Gson
 
@@ -26,16 +29,22 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list), GetProdu
     var response: String? = null
 
 
+    private val args: ProductsListFragmentArgs by navArgs()
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val loginResponse: LoginResponse
+
 
         //todo handle the result from navigation args
 //        val bundle = intent.extras
 //        if (bundle != null) {
 //            response = bundle.getString("RESPONSE")
 //        }
+
+        response = args.profile
 
 
         val gson = Gson()
@@ -72,6 +81,11 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list), GetProdu
         productsListAdapter!!.setClickListener(object : ItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
 
+                val action =
+                    ProductsListFragmentDirections.actionProductsListFragmentToProductDetailsActivity(
+                        productsList!!.products[position]
+                    )
+                findNavController().navigate(action)
             }
         })
     }

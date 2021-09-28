@@ -19,12 +19,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <nav-graph android:value="@navigation/main_nav_graph" />
         </activity>
-        <activity android:name="com.example.productfeature.productdetails.ProductDetailsActivity" />
-        <activity android:name="com.example.productfeature.productlist.ProductsListFragment" />
-        <activity android:name="com.example.authfeature.login.LoginFragment">
 
-        </activity>
     </application>
 
 </manifest>

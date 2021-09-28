@@ -4,6 +4,7 @@ import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavOptions
+import com.example.entity.Profile
 
 fun buildDeepLink(destination: DeepLinkDestination) =
     NavDeepLinkRequest.Builder
@@ -30,5 +31,5 @@ const val DOMAIN = "example://"
 
 sealed class DeepLinkDestination(val address: String) {
     object Auth : DeepLinkDestination("${DOMAIN}auth")
-    object Product : DeepLinkDestination("${DOMAIN}product")
+    class Product(profile: String) : DeepLinkDestination("${DOMAIN}product?profile=${profile}")
 }

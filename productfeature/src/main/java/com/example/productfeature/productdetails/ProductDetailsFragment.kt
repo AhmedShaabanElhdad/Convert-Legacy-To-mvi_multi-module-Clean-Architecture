@@ -3,19 +3,20 @@ package com.example.productfeature.productdetails
 import android.os.Bundle
 import android.widget.TextView
 import com.arindicatorview.ARIndicatorView
-import com.example.productfeature.productdetails.ImagesAdapter
 import com.example.productfeature.R
-import android.os.Parcelable
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entity.Product
+import com.example.productfeature.productlist.ProductsListFragmentArgs
 
-class ProductDetailsActivity : Fragment(R.layout.activity_product_details) {
+class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
+
+    private val args: ProductDetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,12 +32,12 @@ class ProductDetailsActivity : Fragment(R.layout.activity_product_details) {
         //todo get data from args
 //        val bundle = intent.getBundleExtra("PARCELABLE")
 //        val product = bundle!!.getParcelable<Parcelable>("ITEM") as Product?
-        val product:Product? = null
+        val product:Product = args.product
 
         back.setOnClickListener { findNavController().popBackStack() }
 
 
-        description.text = product!!.deal_description
+        description.text = product.deal_description
         title.text = product.name_ar
         description.movementMethod = ScrollingMovementMethod()
         price.text = "كاش" + "           " + product.price + "جنيه"

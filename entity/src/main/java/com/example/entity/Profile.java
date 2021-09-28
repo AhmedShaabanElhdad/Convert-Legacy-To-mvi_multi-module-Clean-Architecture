@@ -1,6 +1,8 @@
 package com.example.entity;
 
-public class Profile{
+import java.io.Serializable;
+
+public class Profile implements Serializable {
     public String username;
     public String image;
     public String name;

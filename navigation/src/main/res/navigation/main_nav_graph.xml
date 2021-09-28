@@ -6,7 +6,7 @@
 
 
 
-    <include app:graph="@navigation/product_flow" />
     <include app:graph="@navigation/auth_flow" />
+    <include app:graph="@navigation/product_flow" />
 
 </navigation>

@@ -1,106 +1,77 @@
-package com.example.authfeature;
+package com.example.authfeature
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.util.Log;
+import android.os.AsyncTask
+import org.json.JSONObject
+import android.content.ContentValues
+import android.content.Context
+import android.util.Log
+import org.json.JSONException
+import java.io.*
+import java.lang.StringBuilder
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static android.content.ContentValues.TAG;
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+class LoginTask(private val context: Context,private val success:(String)->Unit) : AsyncTask<String?, Void?, String?>() {
+    private var username: String? = null
+    private var password: String? = null
+    override fun onPreExecute() {}
 
 
-public class LoginTask extends AsyncTask<String, Void, String> {
-
-
-    private String username, password;
-    private Context context;
-
-    public LoginTask(Context context) {
-        this.context = context;
-    }
-
-    @Override
-    protected void onPreExecute() {
-
-    }
-
-    @Override
-    protected String doInBackground(String... params) {
-
-        String result;
-        String inputLine;
+    override fun doInBackground(vararg params: String?): String? {
+        val result: String
+        var inputLine: String?
 
         //Set username and password
-        this.username = params[0];
-        this.password = params[1];
-
+        username = params[0]
+        password = params[1]
         try {
             //Setup URL connection
-            URL url = new URL("https://assessment-sn12.halan.io/auth");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.addRequestProperty("Content-Type", "application/json");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-            JSONObject body = new JSONObject();
-            body.put("username", username);
-            body.put("password", password);
-
-            writer.write(body.toString());
-            writer.close();
-            connection.connect();
-
-            int status = connection.getResponseCode();
-
-            InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
-            BufferedReader reader = new BufferedReader(streamReader);
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((inputLine = reader.readLine()) != null) {
-                stringBuilder.append(inputLine);
+            val url = URL("https://assessment-sn12.halan.io/auth")
+            val connection = url.openConnection() as HttpURLConnection
+            connection.requestMethod = "POST"
+            connection.addRequestProperty("Content-Type", "application/json")
+            connection.doInput = true
+            connection.doOutput = true
+            val writer = BufferedWriter(OutputStreamWriter(connection.outputStream))
+            val body = JSONObject()
+            body.put("username", username)
+            body.put("password", password)
+            writer.write(body.toString())
+            writer.close()
+            connection.connect()
+            val status = connection.responseCode
+            val streamReader = InputStreamReader(connection.inputStream)
+            val reader = BufferedReader(streamReader)
+            val stringBuilder = StringBuilder()
+            while (reader.readLine().also { inputLine = it } != null) {
+                stringBuilder.append(inputLine)
             }
-            reader.close();
-            streamReader.close();
-            result = stringBuilder.toString();
-
-
-            switch (status) {
-                case 200:
-                    return result;
-                default:
-                    return null;
+            reader.close()
+            streamReader.close()
+            result = stringBuilder.toString()
+            return when (status) {
+                200 -> result
+                else -> null
             }
-        } catch (java.net.MalformedURLException e) {
-            Log.w(TAG, "Exception while constructing URL" + e.getMessage());
-        } catch (IOException | JSONException e) {
-            Log.w(TAG, "Exception occured while logging in: " + e.getMessage());
+        } catch (e: MalformedURLException) {
+            Log.w(ContentValues.TAG, "Exception while constructing URL" + e.message)
+        } catch (e: IOException) {
+            Log.w(ContentValues.TAG, "Exception occured while logging in: " + e.message)
+        } catch (e: JSONException) {
+            Log.w(ContentValues.TAG, "Exception occured while logging in: " + e.message)
         }
-
-        return null;
+        return null
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-//        if (result != null) {
+    override fun onPostExecute(result: String?) {
+        if (result != null) {
+            success(result)
 //            Intent myIntent = new Intent(context, ProductsListActivity.class);
 //            myIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
 //            myIntent.putExtra("RESPONSE", result);
 //            context.startActivity(myIntent);
-//        }
-
+        }
     }
 
 }

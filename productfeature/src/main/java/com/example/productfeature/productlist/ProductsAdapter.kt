@@ -2,7 +2,6 @@ package com.example.productfeature.productlist
 
 import android.content.Context
 import android.view.LayoutInflater
-import com.example.productfeature.productlist.ProductsAdapter.ItemClickListener
 import android.view.ViewGroup
 import com.example.productfeature.R
 import com.bumptech.glide.Glide
@@ -11,13 +10,15 @@ import android.content.Intent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import com.example.productfeature.productdetails.ProductDetailsActivity
+import com.example.productfeature.productdetails.ProductDetailsFragment
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entity.Product
 
 class ProductsAdapter internal constructor(context: Context, data: List<Product>) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+
+
     private val mData: List<Product> = data
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     private var mClickListener: ItemClickListener? = null
@@ -36,16 +37,6 @@ class ProductsAdapter internal constructor(context: Context, data: List<Product>
             holder.myTextView.text = item.name_ar
             Glide.with(holder.productImageView.context).load(item.image)
                 .into(holder.productImageView)
-            holder.moreButton.setOnClickListener {
-                val myBundle = Bundle()
-                myBundle.putParcelable("ITEM", item)
-                val myIntent = Intent(context, ProductDetailsActivity::class.java).putExtra(
-                    "PARCELABLE",
-                    myBundle
-                )
-                myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(myIntent)
-            }
         }
     }
 
@@ -57,18 +48,15 @@ class ProductsAdapter internal constructor(context: Context, data: List<Product>
     // stores and recycles views as they are scrolled off screen
     inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        var myTextView: TextView
-        var moreButton: Button
-        var productImageView: ImageView
+        var myTextView: TextView = itemView.findViewById(R.id.product_item_title_tv)
+        var moreButton: Button = itemView.findViewById(R.id.more_btn)
+        var productImageView: ImageView = itemView.findViewById(R.id.product_iv)
         override fun onClick(view: View) {
             if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
         }
 
         init {
-            myTextView = itemView.findViewById(R.id.product_item_title_tv)
-            moreButton = itemView.findViewById(R.id.more_btn)
-            productImageView = itemView.findViewById(R.id.product_iv)
-            itemView.setOnClickListener(this)
+            moreButton.setOnClickListener(this)
         }
     }
 

@@ -5,13 +5,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.authfeature.Login
 import com.example.authfeature.R
 import com.example.authfeature.databinding.FragmentLoginBinding
+import com.example.navigation.DeepLinkDestination
+import com.example.navigation.deepLinkNavigateTo
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
-
-//    lateinit var binding: FragmentLoginBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,7 +26,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 userNameEt.text.toString(),
                 passwordEt.text.toString(),
                 requireContext().applicationContext
-            )
+            ){
+                findNavController().deepLinkNavigateTo(DeepLinkDestination.Product(it))
+            }
         })
     }
 }

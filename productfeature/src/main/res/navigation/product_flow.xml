@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@id/product_flow"
+app:startDestination="@id/productsListFragment">
+
+    <fragment
+        android:id="@+id/productsListFragment"
+        android:name="com.example.productfeature.productlist.ProductsListFragment"
+        android:label="ProductsListFragment"
+        tools:layout="@layout/fragment_products_list">
+
+
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="example://product?profile={profile}" />
+
+        <action
+            android:id="@+id/action_productsListFragment_to_productDetailsActivity"
+            app:destination="@id/productDetailsFragment" />
+        <argument
+            android:name="profile"
+            app:argType="string" />
+<!--        <argument-->
+<!--            android:name="profile"-->
+<!--            app:argType="com.example.entity.Profile" />-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.example.productfeature.productdetails.ProductDetailsFragment"
+        android:label="activity_product_details"
+        tools:layout="@layout/fragment_product_details" >
+        <argument
+            android:name="product"
+            app:argType="com.example.entity.Product" />
+    </fragment>
+
+</navigation>
