@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 
 const val PREFERENCES_NAME = "Halan"
+const val TOKEN = "token"
 
 class SharedPref @Inject constructor(@ApplicationContext val context: Context) {
 

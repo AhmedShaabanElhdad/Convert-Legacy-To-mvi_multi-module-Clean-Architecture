@@ -1,11 +1,8 @@
-package com.example.data.response;
+package com.example.data.response
 
-import com.example.entity.Product;
+import com.example.entity.Product
 
-import java.util.List;
-
-
-public class ProductsList{
-    public String status;
-    public List<Product> products;
-}
+data class ProductsList(
+    val status: String,
+    val products: List<Product> = emptyList()
+)
