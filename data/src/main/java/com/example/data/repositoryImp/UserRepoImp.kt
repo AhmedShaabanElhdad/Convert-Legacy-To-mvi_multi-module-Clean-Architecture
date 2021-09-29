@@ -3,6 +3,7 @@ package com.example.data.repositoryImp
 import com.example.data.network.HalanService
 import com.example.data.pref.SharedPref
 import com.example.data.pref.TOKEN
+import com.example.domain.core.LoginRequstParams
 import com.example.domain.core.ViewState
 import com.example.domain.repository.UserRepo
 import com.example.entity.Product
@@ -17,12 +18,12 @@ class UserRepoImp @Inject constructor(
     private val service: HalanService,
     private val pref: SharedPref
 ) : UserRepo {
-    override fun login(username: String, password: String): Flow<ViewState<Profile>> {
+    override fun login(params: LoginRequstParams): Flow<ViewState<Profile>> {
         return flow {
             try {
 
                 emit(ViewState.Loading)
-                val response = service.login(username = username, password = password)
+                val response = service.login(username = params.username, password = params.password)
                 response.body()?.apply {
                     //todo add datasource factory and seperate it from repository
                     if (response.code() == 200 && this.status == "OK") {
@@ -35,7 +36,7 @@ class UserRepoImp @Inject constructor(
             } catch (e: Exception) {
                 emit(ViewState.Error(e.message ?: "Error"))
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
     private fun saveToken(token: String?) {

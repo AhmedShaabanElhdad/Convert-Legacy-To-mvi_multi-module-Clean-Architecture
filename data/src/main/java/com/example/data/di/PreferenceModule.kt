@@ -1,4 +1,4 @@
-package com.example.halanchallenge.di
+package com.example.data.di
 
 import android.content.Context
 import com.example.data.pref.SharedPref

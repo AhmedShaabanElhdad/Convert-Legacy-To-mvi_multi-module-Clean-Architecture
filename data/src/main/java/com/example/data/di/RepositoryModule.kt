@@ -1,4 +1,4 @@
-package com.example.halanchallenge.di
+package com.example.data.di
 
 import com.example.data.network.HalanService
 import com.example.data.pref.SharedPref

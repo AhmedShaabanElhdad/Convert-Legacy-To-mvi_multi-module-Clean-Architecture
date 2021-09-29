@@ -36,7 +36,7 @@ class ProductRepoImp @Inject constructor(
             } catch (e: Exception) {
                 emit(ViewState.Error(e.message ?: "Error"))
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
     private fun getToken(): String {
