@@ -26,9 +26,7 @@ class UserRepoImp @Inject constructor(
                 response.body()?.apply {
                     //todo add datasource factory and seperate it from repository
                     if (response.code() == 200 && this.status == "OK") {
-                        this.token?.let {
-                            pref.save(TOKEN, it)
-                        }
+                        saveToken(this.token)
                         emit(ViewState.Success(this.profile))
                     } else
                         emit(ViewState.Error(response.message()))
@@ -38,5 +36,11 @@ class UserRepoImp @Inject constructor(
                 emit(ViewState.Error(e.message ?: "Error"))
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    private fun saveToken(token: String?) {
+        token?.let {
+            pref.save(TOKEN, it)
+        }
     }
 }

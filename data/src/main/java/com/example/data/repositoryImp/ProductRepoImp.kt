@@ -25,7 +25,7 @@ class ProductRepoImp @Inject constructor(
             try {
 
                 emit(ViewState.Loading)
-                val response = service.getProduct("")
+                val response = service.getProduct(getToken())
                 response.body()?.apply {
                     if (response.code() == 200 && this.status == "OK") {
                         emit(ViewState.Success(this.products))
@@ -37,5 +37,9 @@ class ProductRepoImp @Inject constructor(
                 emit(ViewState.Error(e.message ?: "Error"))
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    private fun getToken(): String {
+        return "Bearer${pref.load(TOKEN,"")}"
     }
 }
