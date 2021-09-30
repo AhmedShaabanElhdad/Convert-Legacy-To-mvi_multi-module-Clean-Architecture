@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.entity.Product
 import com.example.entity.Profile
 import com.example.productfeature.R
+import com.example.productfeature.databinding.FragmentProductsListBinding
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -23,20 +24,19 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class ProductsListFragment : Fragment(R.layout.fragment_products_list){
 
-    var productsListRV: RecyclerView? = null
-    var productsListAdapter: ProductsAdapter? = null
-    var profile: Profile? = null
+    private var productsListAdapter: ProductsAdapter? = null
 
 
     private val args: ProductsListFragmentArgs by navArgs()
     private val viewModel: GetProductViewModel by viewModels()
 
+    lateinit var binding: FragmentProductsListBinding
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        getProfileData()
+        binding = FragmentProductsListBinding.bind(view)
 
         initalization()
 
@@ -44,39 +44,39 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
     }
 
     private fun initalization() {
-        val userName: TextView = requireView().findViewById(R.id.username_tv)
-        val phoneNumber: TextView = requireView().findViewById(R.id.phone_number_tv)
-        val email: TextView = requireView().findViewById(R.id.email_tv)
-        val userIV: ImageView = requireView().findViewById(R.id.user_iv)
-        val logoutIV: ImageView = requireView().findViewById(R.id.logoutIV)
-        productsListRV = requireView().findViewById(R.id.products_list_rv)
-
-        logoutIV.setOnClickListener {
+        binding.logoutIV.setOnClickListener {
             requireActivity().finish()
         }
 
         val mLayoutManager = LinearLayoutManager(requireContext().applicationContext)
-        productsListRV?.layoutManager = mLayoutManager
+        binding.productsListRv.layoutManager = mLayoutManager
 
-
-        Glide.with(this).load(profile?.image).into(userIV)
-        userName.text = profile?.name
-        phoneNumber.text = profile?.phone
-        email.text = profile?.email
+        bindPRofileData()
     }
 
-    private fun getProfileData() {
+    private fun bindPRofileData() {
+        val profile = getProfileData()
+        profile?.let {
+            Glide.with(this).load(it.image).into(binding.userIv)
+            binding.usernameTv.text = it.name
+            binding.phoneNumberTv.text = it.phone
+            binding.emailTv.text = it.email
+        }
+
+    }
+
+    private fun getProfileData(): Profile? {
         val gson = Gson()
-        profile = gson.fromJson(args.profile, Profile::class.java)
+        return gson.fromJson(args.profile, Profile::class.java)
     }
 
 
     fun saveList(productsList: List<Product>) {
-        productsListAdapter = ProductsAdapter(requireContext(), productsList){
+        productsListAdapter = ProductsAdapter(productsList){
             val action = ProductsListFragmentDirections.actionProductsListFragmentToProductDetailsActivity(it)
             findNavController().navigate(action)
         }
-        productsListRV!!.adapter = productsListAdapter
+        binding.productsListRv.adapter = productsListAdapter
     }
 
 

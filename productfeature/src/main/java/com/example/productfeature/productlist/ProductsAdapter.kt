@@ -12,21 +12,27 @@ import android.widget.Button
 import android.widget.ImageView
 import com.example.productfeature.productdetails.ProductDetailsFragment
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entity.Product
+import com.example.productfeature.databinding.ProductItemBinding
 
-class ProductsAdapter internal constructor(context: Context, data: List<Product>,val click:(Product)->Unit) :
+class ProductsAdapter internal constructor(data: List<Product>, val click: (Product) -> Unit) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
 
     private val mData: List<Product> = data
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private val context: Context = context
 
     // inflates the row layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = mInflater.inflate(R.layout.product_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.product_item,
+                parent,
+                false
+            )
+        )
     }
 
     // binds the data to the TextView in each row
@@ -44,27 +50,24 @@ class ProductsAdapter internal constructor(context: Context, data: List<Product>
     }
 
     // stores and recycles views as they are scrolled off screen
-    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var myTextView: TextView = itemView.findViewById(R.id.product_item_title_tv)
-        var moreButton: Button = itemView.findViewById(R.id.more_btn)
-        var productImageView: ImageView = itemView.findViewById(R.id.product_iv)
+    inner class ViewHolder internal constructor(val binding: ProductItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
 
         fun bind(item: Product) {
 
             if (item != null) {
-                myTextView.text = item.name_ar
-                Glide.with(productImageView.context).load(item.image)
-                    .into(productImageView)
+                binding.productItemTitleTv.text = item.name_ar
+                Glide.with(binding.productIv.context).load(item.image)
+                    .into(binding.productIv)
             }
 
-            moreButton.setOnClickListener{
+            binding.moreBtn.setOnClickListener {
                 click(item)
             }
         }
 
     }
-
 
 
 }
