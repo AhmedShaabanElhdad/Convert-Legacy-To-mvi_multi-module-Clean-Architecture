@@ -20,6 +20,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val description: TextView = view.findViewById(R.id.product_description_tv)
         val title: TextView = view.findViewById(R.id.product_title_tv)
         val back: Button = view.findViewById(R.id.materialButton)
@@ -28,13 +29,9 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         val indicatorView: ARIndicatorView = view.findViewById(R.id.ar_indicator)
 
 
-
-        //todo get data from args
-//        val bundle = intent.getBundleExtra("PARCELABLE")
-//        val product = bundle!!.getParcelable<Parcelable>("ITEM") as Product?
         val product:Product = args.product
 
-        back.setOnClickListener { findNavController().popBackStack() }
+        back.setOnClickListener { goBack() }
 
 
         description.text = product.deal_description
@@ -44,5 +41,9 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         val imagesAdapter: ImagesAdapter = ImagesAdapter(requireContext(), product.images)
         imagesListRV.adapter = imagesAdapter
         indicatorView.attachTo(imagesListRV, true)
+    }
+
+    private fun goBack() {
+        findNavController().popBackStack()
     }
 }

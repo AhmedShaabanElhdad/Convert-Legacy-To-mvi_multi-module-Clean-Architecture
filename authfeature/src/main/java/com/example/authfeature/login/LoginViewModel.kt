@@ -3,13 +3,12 @@ package com.example.authfeature.login
 import androidx.lifecycle.viewModelScope
 import com.example.authfeature.R
 import com.example.common_ui.BaseViewModel
-import com.example.domain.core.LoginRequstParams
-import com.example.domain.core.LoginUseCase
+import com.example.domain.usecase.LoginRequstParams
+import com.example.domain.usecase.LoginUseCase
 import com.example.domain.core.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel

@@ -3,15 +3,12 @@ package com.example.data.repositoryImp
 import com.example.data.network.HalanService
 import com.example.data.pref.SharedPref
 import com.example.data.pref.TOKEN
-import com.example.domain.core.LoginRequstParams
+import com.example.domain.usecase.LoginRequstParams
 import com.example.domain.core.ViewState
 import com.example.domain.repository.UserRepo
-import com.example.entity.Product
 import com.example.entity.Profile
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class UserRepoImp @Inject constructor(

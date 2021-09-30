@@ -1,7 +1,6 @@
 package com.example.domain.di
 
-import com.example.domain.core.LoginUseCase
-import com.example.domain.di.IoDispatcher
+import com.example.domain.usecase.LoginUseCase
 import com.example.domain.repository.ProductRepo
 import com.example.domain.repository.UserRepo
 import com.example.domain.usecase.GetProductUseCase

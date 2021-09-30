@@ -40,6 +40,6 @@ class ProductRepoImp @Inject constructor(
     }
 
     private fun getToken(): String {
-        return "Bearer${pref.load(TOKEN,"")}"
+        return "Bearer ${pref.load(TOKEN,"")}"
     }
 }

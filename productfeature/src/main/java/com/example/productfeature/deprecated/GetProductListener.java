@@ -1,4 +1,4 @@
-package com.example.productfeature.productlist;
+package com.example.productfeature.deprecated;
 
 
 import com.example.data.response.ProductsList;

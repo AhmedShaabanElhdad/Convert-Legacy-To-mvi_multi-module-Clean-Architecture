@@ -1,13 +1,12 @@
-package com.example.domain.core
+package com.example.domain.usecase
 
-import android.util.Patterns
-import com.example.domain.R
+import com.example.domain.core.FlowUseCase
+import com.example.domain.core.ViewState
 import com.example.domain.di.IoDispatcher
 import com.example.domain.repository.UserRepo
 import com.example.entity.Profile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 data class LoginRequstParams(

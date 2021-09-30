@@ -22,7 +22,6 @@ HalanService {
     ): Response<LoginResponse>
 
 
-    //"Bearer "
 
     @GET("/products")
     suspend fun getProduct(

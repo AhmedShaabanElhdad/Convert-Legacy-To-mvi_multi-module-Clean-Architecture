@@ -1,4 +1,4 @@
-package com.example.productfeature.productlist
+package com.example.productfeature.deprecated
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,12 +15,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.entity.Product
 
-class ProductsAdapter internal constructor(context: Context, data: List<Product>,val click:(Product)->Unit) :
-    RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+class ProductsAdapterDeprecated internal constructor(context: Context, data: List<Product>) :
+    RecyclerView.Adapter<ProductsAdapterDeprecated.ViewHolder>() {
 
 
     private val mData: List<Product> = data
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
+    private var mClickListener: ItemClickListener? = null
     private val context: Context = context
 
     // inflates the row layout from xml when needed
@@ -31,11 +32,12 @@ class ProductsAdapter internal constructor(context: Context, data: List<Product>
 
     // binds the data to the TextView in each row
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val item = mData[position]
-        holder.bind(item)
-
-
+        if (item != null) {
+            holder.myTextView.text = item.name_ar
+            Glide.with(holder.productImageView.context).load(item.image)
+                .into(holder.productImageView)
+        }
     }
 
     // total number of rows
@@ -44,27 +46,33 @@ class ProductsAdapter internal constructor(context: Context, data: List<Product>
     }
 
     // stores and recycles views as they are scrolled off screen
-    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         var myTextView: TextView = itemView.findViewById(R.id.product_item_title_tv)
         var moreButton: Button = itemView.findViewById(R.id.more_btn)
         var productImageView: ImageView = itemView.findViewById(R.id.product_iv)
-
-
-        fun bind(item: Product) {
-
-            if (item != null) {
-                myTextView.text = item.name_ar
-                Glide.with(productImageView.context).load(item.image)
-                    .into(productImageView)
-            }
-
-            moreButton.setOnClickListener{
-                click(item)
-            }
+        override fun onClick(view: View) {
+            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
         }
 
+        init {
+            moreButton.setOnClickListener(this)
+        }
     }
 
+    // convenience method for getting data at click position
+    fun getItem(id: Int): Product {
+        return mData[id]
+    }
 
+    // allows clicks events to be caught
+    fun setClickListener(itemClickListener: ItemClickListener?) {
+        mClickListener = itemClickListener
+    }
+
+    // parent activity will implement this method to respond to click events
+    interface ItemClickListener {
+        fun onItemClick(view: View?, position: Int)
+    }
 
 }

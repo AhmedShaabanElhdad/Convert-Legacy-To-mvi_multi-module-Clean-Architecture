@@ -13,7 +13,6 @@ class ImagesAdapter internal constructor(context: Context, data: List<String>) :
     RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
     private val mData: List<String> = data
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private val context: Context = context
 
     // inflates the row layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

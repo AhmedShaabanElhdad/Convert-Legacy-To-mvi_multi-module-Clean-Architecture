@@ -1,4 +1,4 @@
-package com.example.productfeature;
+package com.example.productfeature.deprecated;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,7 +9,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 //import com.example.data.response.ProductsList;
 import com.example.data.response.ProductsList;
-import com.example.productfeature.productlist.GetProductListener;
+import com.example.productfeature.deprecated.GetProductListener;
 import com.example.productfeature.productlist.ProductsAdapter;
 import com.google.gson.Gson;
 
