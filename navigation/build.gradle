@@ -33,7 +33,6 @@ android {
 
 dependencies {
 
-    implementation project(":entity")
     api 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     api 'androidx.navigation:navigation-ui-ktx:2.3.2'
     api "androidx.navigation:navigation-dynamic-features-fragment:2.3.2"

@@ -13,7 +13,8 @@ import java.net.URL
 interface
 HalanService {
 
-    @Headers("Content-Type: application/json;charset=UTF-8")
+//    @Headers("Content-Type: application/json")
+    @FormUrlEncoded
     @POST("/auth")
     suspend fun login(
         @Field("username") username: String,

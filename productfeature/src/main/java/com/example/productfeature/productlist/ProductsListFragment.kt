@@ -16,17 +16,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.response.LoginResponse
 import com.bumptech.glide.Glide
+import com.example.entity.Profile
 import com.example.productfeature.GetProduct
 import com.example.productfeature.productdetails.ProductDetailsFragment
 import com.example.productfeature.productlist.ProductsAdapter.ItemClickListener
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductsListFragment : Fragment(R.layout.fragment_products_list), GetProductListener {
 
     var productsList: ProductsList? = null
     var productsListRV: RecyclerView? = null
     var productsListAdapter: ProductsAdapter? = null
-    var response: String? = null
+    var profile: Profile? = null
 
 
     private val args: ProductsListFragmentArgs by navArgs()
@@ -44,17 +47,15 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list), GetProdu
 //            response = bundle.getString("RESPONSE")
 //        }
 
-        response = args.profile
-
 
         val gson = Gson()
-        loginResponse = gson.fromJson(response, LoginResponse::class.java)
+        profile = gson.fromJson(args.profile, Profile::class.java)
         val userName: TextView = view.findViewById(R.id.username_tv)
         val phoneNumber: TextView = view.findViewById(R.id.phone_number_tv)
         val email: TextView = view.findViewById(R.id.email_tv)
         val userIV: ImageView = view.findViewById(R.id.user_iv)
         val logoutIV: ImageView = view.findViewById(R.id.logoutIV)
-        Glide.with(this).load(loginResponse.profile.image).into(userIV)
+        Glide.with(this).load(profile?.image).into(userIV)
         productsListRV = view.findViewById(R.id.products_list_rv)
         logoutIV.setOnClickListener {
 //            requireActivity().finish()
@@ -65,10 +66,11 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list), GetProdu
 
         //todo move to model in another function
         val productModel = GetProduct()
-        productModel.getProduct(loginResponse.token, requireContext().applicationContext, this)
-        userName.text = loginResponse.profile.name
-        phoneNumber.text = loginResponse.profile.phone
-        email.text = loginResponse.profile.email
+        productModel.getProduct("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFobWVkc2hhYWJhbiIsImltYWdlIjoiaHR0cHM6Ly9pLnBpY3N1bS5waG90b3MvaWQvMTA2Mi81MDkyLzMzOTUuanBnP2htYWM9bzltN3FlVTUxdU9MZlh2ZXBYY1RyazJaUGlTQkpFa2lpT3AtUXZ4amEtayIsIm5hbWUiOiIgINis2YbZitivINil2YXYp9mFIiwiZW1haWwiOiI0ZDU2dGc2eDk3a2dlODdAZ21haWwuY29tIiwicGhvbmUiOiIwMTkxMDE1MTg5MSIsImlhdCI6MTYzMjkxNzAxNywiZXhwIjoxNjMyOTE3OTQ3fQ.IRy348OhI6_kV4IiA5rftuDmrhC7reWYWZ7uknSUZuk",
+            requireContext().applicationContext, this)
+        userName.text = profile?.name
+        phoneNumber.text = profile?.phone
+        email.text = profile?.email
 
     }
 

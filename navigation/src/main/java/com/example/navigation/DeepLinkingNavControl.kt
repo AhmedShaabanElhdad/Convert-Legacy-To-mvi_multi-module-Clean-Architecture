@@ -4,7 +4,6 @@ import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavOptions
-import com.example.entity.Profile
 
 fun buildDeepLink(destination: DeepLinkDestination) =
     NavDeepLinkRequest.Builder

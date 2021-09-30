@@ -22,6 +22,7 @@ app:startDestination="@id/productsListFragment">
         <argument
             android:name="profile"
             app:argType="string" />
+
 <!--        <argument-->
 <!--            android:name="profile"-->
 <!--            app:argType="com.example.entity.Profile" />-->

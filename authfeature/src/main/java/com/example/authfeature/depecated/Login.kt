@@ -1,7 +1,6 @@
-package com.example.authfeature
+package com.example.authfeature.depecated
 
 import android.content.Context
-import com.example.authfeature.LoginTask
 
 // Call async LoginTask
 class Login {

@@ -1,4 +1,4 @@
-package com.example.authfeature
+package com.example.authfeature.depecated
 
 import android.os.AsyncTask
 import org.json.JSONObject
