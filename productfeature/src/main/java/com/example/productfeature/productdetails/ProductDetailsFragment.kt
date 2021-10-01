@@ -34,6 +34,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         binding.productDescriptionTv.text = product.deal_description
         binding.productTitleTv.text = product.name_ar
         binding.productDescriptionTv.movementMethod = ScrollingMovementMethod()
+        //todo make mapper class from model entity to view entity
         binding.productPriceTv.text = "كاش" + "           " + product.price + "جنيه"
         val imagesAdapter: ImagesAdapter = ImagesAdapter(product.images)
         binding.productImagesBanner.adapter = imagesAdapter

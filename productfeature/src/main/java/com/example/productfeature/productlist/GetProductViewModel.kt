@@ -6,6 +6,7 @@ import com.example.domain.usecase.LoginRequstParams
 import com.example.domain.usecase.LoginUseCase
 import com.example.domain.core.ViewState
 import com.example.domain.usecase.GetProductUseCase
+import com.example.domain.usecase.LogoutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GetProductViewModel @Inject constructor(
-    private val getProductUseCase: GetProductUseCase
+    private val getProductUseCase: GetProductUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) : BaseViewModel<GetProductContract.GetProductEvent, GetProductContract.State, GetProductContract.GetProductEffect>() {
 
     init {
@@ -37,6 +39,9 @@ class GetProductViewModel @Inject constructor(
         when (event) {
             is GetProductContract.GetProductEvent.getProduct -> {
                 getProduct()
+            }
+            is GetProductContract.GetProductEvent.Logout -> {
+                logoutUseCase.execute(Any())
             }
         }
     }

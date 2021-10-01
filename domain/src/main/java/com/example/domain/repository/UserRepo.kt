@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepo {
     fun login(params: LoginRequstParams): Flow<ViewState<Profile>>
-
+    fun refreshToken(): Flow<ViewState<Profile>>
+    fun logout()
 }

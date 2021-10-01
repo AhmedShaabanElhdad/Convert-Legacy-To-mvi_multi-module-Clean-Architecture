@@ -1,10 +1,14 @@
 package com.example.domain.usecase
 
+import android.view.View
 import com.example.domain.core.FlowUseCase
+import com.example.domain.core.IUseCase
 import com.example.domain.core.ViewState
 import com.example.domain.di.IoDispatcher
 import com.example.domain.repository.ProductRepo
+import com.example.domain.repository.UserRepo
 import com.example.entity.Product
+import com.example.entity.Profile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

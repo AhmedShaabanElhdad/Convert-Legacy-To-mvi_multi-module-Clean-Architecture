@@ -13,8 +13,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.common_ui.LoadingDialog
+import com.example.common_ui.getLoadingDialog
+import com.example.common_ui.loadImagesWithGlideExt
+import com.example.common_ui.showToast
 import com.example.entity.Product
 import com.example.entity.Profile
+import com.example.navigation.DeepLinkDestination
+import com.example.navigation.deepLinkNavigateTo
 import com.example.productfeature.R
 import com.example.productfeature.databinding.FragmentProductsListBinding
 import com.google.gson.Gson
@@ -45,7 +51,8 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
 
     private fun initalization() {
         binding.logoutIV.setOnClickListener {
-            requireActivity().finish()
+            viewModel.setEvent(GetProductContract.GetProductEvent.Logout)
+            findNavController().deepLinkNavigateTo(DeepLinkDestination.Auth,true)
         }
 
         val mLayoutManager = LinearLayoutManager(requireContext().applicationContext)
@@ -57,10 +64,11 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
     private fun bindPRofileData() {
         val profile = getProfileData()
         profile?.let {
-            Glide.with(this).load(it.image).into(binding.userIv)
+
+            binding.userIv.loadImagesWithGlideExt(it.image)
             binding.usernameTv.text = it.name
             binding.phoneNumberTv.text = it.phone
-            binding.emailTv.text = it.email
+//            binding.emailTv.text = it.email
         }
 
     }
@@ -86,14 +94,13 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
             viewModel.uiState.collect {
                 when (it.GetProductViewState) {
                     is GetProductContract.GetProductViewState.Idle -> {
-
-//                        hideLoading()
+                        hideLoading()
                     }
                     is GetProductContract.GetProductViewState.Loading -> {
-                        showToast("Loading")
-//                        showLoading()
+                        showLoading()
                     }
                     is GetProductContract.GetProductViewState.Success -> {
+                        hideLoading()
                         saveList(it.GetProductViewState.products)
                     }
                 }
@@ -104,7 +111,7 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
             viewModel.effect.collect {
                 when (it) {
                     is GetProductContract.GetProductEffect.Error -> {
-//                        hideLoading()
+                        hideLoading()
                         showToast("Error")
                     }
                 }
@@ -113,7 +120,16 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
     }
 
 
-    private fun showToast(error: String) {
-        Toast.makeText(requireContext(),error, Toast.LENGTH_LONG).show()
+    private var mProgressDialog: LoadingDialog? = null
+    fun showLoading() {
+        mProgressDialog = getLoadingDialog(requireContext())
+        mProgressDialog?.showDialog()
     }
+
+
+    fun hideLoading() {
+        mProgressDialog?.dismiss()
+    }
+
+
 }

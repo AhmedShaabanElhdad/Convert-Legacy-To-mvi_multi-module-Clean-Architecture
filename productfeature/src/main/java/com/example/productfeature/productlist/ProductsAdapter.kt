@@ -14,6 +14,7 @@ import com.example.productfeature.productdetails.ProductDetailsFragment
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.common_ui.loadImagesWithGlideExt
 import com.example.entity.Product
 import com.example.productfeature.databinding.ProductItemBinding
 
@@ -58,11 +59,10 @@ class ProductsAdapter internal constructor(data: List<Product>, val click: (Prod
 
             if (item != null) {
                 binding.productItemTitleTv.text = item.name_ar
-                Glide.with(binding.productIv.context).load(item.image)
-                    .into(binding.productIv)
+                binding.productIv.loadImagesWithGlideExt(item.image)
             }
 
-            binding.moreBtn.setOnClickListener {
+            binding.root.setOnClickListener {
                 click(item)
             }
         }

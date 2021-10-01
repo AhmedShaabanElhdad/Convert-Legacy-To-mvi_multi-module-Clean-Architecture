@@ -13,6 +13,7 @@ class GetProductContract {
 
     sealed class GetProductEvent : UiEvent {
         object getProduct : GetProductEvent()
+        object Logout : GetProductEvent()
     }
 
     sealed class GetProductViewState {

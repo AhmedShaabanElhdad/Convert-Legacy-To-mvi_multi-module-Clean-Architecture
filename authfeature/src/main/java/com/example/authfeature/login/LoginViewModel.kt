@@ -6,6 +6,7 @@ import com.example.common_ui.BaseViewModel
 import com.example.domain.usecase.LoginRequstParams
 import com.example.domain.usecase.LoginUseCase
 import com.example.domain.core.ViewState
+import com.example.domain.usecase.RefreshTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -13,9 +14,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val refreshTokenUseCase: RefreshTokenUseCase
 ) : BaseViewModel<LoginContract.LoginEvent, LoginContract.State, LoginContract.LoginEffect>() {
 
+    init {
+        setEvent(LoginContract.LoginEvent.refreshToken)
+    }
 
     /**
      * Create initial State of Views
@@ -52,6 +57,10 @@ class LoginViewModel @Inject constructor(
                     login(event.username, event.password)
                 }
             }
+
+            is LoginContract.LoginEvent.refreshToken -> {
+                refreshToken()
+            }
         }
     }
 
@@ -67,6 +76,27 @@ class LoginViewModel @Inject constructor(
     private fun isPasswordValid(password: String): Boolean {
         return password.isNotEmpty()
     }
+
+    private fun refreshToken(){
+        viewModelScope.launch {
+            // Set Loading
+            refreshTokenUseCase.invoke(Any()).collect {
+                when (it) {
+                    is ViewState.Success -> setState {
+                        copy(
+                            loginViewState = LoginContract.LoginViewState.Success(
+                                it.data
+                            )
+                        )
+                    }
+                    is ViewState.Error -> setState { copy(loginViewState = LoginContract.LoginViewState.showPage) }
+                    else -> setState { copy(loginViewState = LoginContract.LoginViewState.showPage) }
+                }
+            }
+        }
+    }
+
+
 
     private fun login(username: String, password: String) {
         viewModelScope.launch {

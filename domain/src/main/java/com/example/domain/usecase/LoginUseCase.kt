@@ -1,6 +1,7 @@
 package com.example.domain.usecase
 
 import com.example.domain.core.FlowUseCase
+import com.example.domain.core.IUseCase
 import com.example.domain.core.ViewState
 import com.example.domain.di.IoDispatcher
 import com.example.domain.repository.UserRepo
@@ -21,6 +22,27 @@ class LoginUseCase @Inject constructor(
 
     override fun execute(parameters: LoginRequstParams): Flow<ViewState<Profile>> {
         return userRepo.login(parameters)
+    }
+}
+
+
+class RefreshTokenUseCase @Inject constructor(
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val userRepo: UserRepo,
+) : FlowUseCase<Any, Profile>(ioDispatcher) {
+
+    override fun execute(parameters: Any): Flow<ViewState<Profile>> {
+        return userRepo.refreshToken()
+    }
+
+}
+
+
+class LogoutUseCase @Inject constructor(
+    private val userRepo: UserRepo
+) : IUseCase<Any, Any> {
+    override fun execute(parameter: Any): Any {
+        return userRepo.logout()
     }
 
 }

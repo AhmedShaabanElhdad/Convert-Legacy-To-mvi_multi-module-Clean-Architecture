@@ -2,13 +2,15 @@ package com.example.authfeature.login
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.authfeature.R
 import com.example.authfeature.databinding.FragmentLoginBinding
+import com.example.common_ui.LoadingDialog
+import com.example.common_ui.getLoadingDialog
+import com.example.common_ui.showToast
 import com.example.navigation.DeepLinkDestination
 import com.example.navigation.deepLinkNavigateTo
 import com.google.gson.Gson
@@ -29,16 +31,25 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         binding = FragmentLoginBinding.bind(view)
 
-
-//        val login = Login()
         binding.loginButton.setOnClickListener(View.OnClickListener {
 
             startLogin()
         })
 
+        checkIfLoggedIn()
+
 
         initObservers()
     }
+
+
+
+    private fun checkIfLoggedIn() {
+        loginViewModel.setEvent(
+            LoginContract.LoginEvent.refreshToken
+        )
+    }
+
 
     private fun startLogin() {
         loginViewModel.setEvent(
@@ -56,26 +67,28 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 when (it.loginViewState) {
                     is LoginContract.LoginViewState.Idle -> {
 
-//                        hideLoading()
+                        hideLoading()
                     }
                     is LoginContract.LoginViewState.Loading -> {
-                        showToast("Loading")
-//                        showLoading()
+                        showLoading()
                     }
                     is LoginContract.LoginViewState.Success -> {
-                        showToast("Success")
+                        hideLoading()
                         val gson = Gson()
                         var profile = gson.toJson(it.loginViewState.profile)
-                        findNavController().deepLinkNavigateTo(DeepLinkDestination.Product(profile))
+                        findNavController().deepLinkNavigateTo(DeepLinkDestination.Product(profile),true)
                     }
                     is LoginContract.LoginViewState.LoginFormState -> {
-
+                        hideLoading()
                         if (it.loginViewState.usernameError != null) {
                             binding.usernameEt.error = getString(it.loginViewState.usernameError)
                         }
                         if (it.loginViewState.passwordError != null) {
                             binding.passwordEt.error = getString(it.loginViewState.passwordError)
                         }
+                    }
+                    is LoginContract.LoginViewState.showPage -> {
+                        binding.linearLoading.visibility = View.GONE
                     }
                 }
             }
@@ -85,7 +98,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             loginViewModel.effect.collect {
                 when (it) {
                     is LoginContract.LoginEffect.Error -> {
-//                        hideLoading()
+                        hideLoading()
                         showToast("Error")
                     }
                 }
@@ -93,7 +106,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun showToast(error: String) {
-        Toast.makeText(requireContext(),error,Toast.LENGTH_LONG).show()
+
+
+
+    private var mProgressDialog: LoadingDialog? = null
+    fun showLoading() {
+        mProgressDialog = getLoadingDialog(requireContext())
+        mProgressDialog?.showDialog()
+    }
+
+
+    fun hideLoading() {
+        mProgressDialog?.dismiss()
     }
 }

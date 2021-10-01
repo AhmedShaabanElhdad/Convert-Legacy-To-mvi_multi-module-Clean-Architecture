@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.productfeature.R
 import com.bumptech.glide.Glide
+import com.example.common_ui.loadImagesWithGlideExt
 import com.example.productfeature.databinding.ImageViewItemBinding
 import com.example.productfeature.databinding.ProductItemBinding
 
@@ -42,7 +43,9 @@ class ImagesAdapter internal constructor( data: List<String>) :
     inner class ViewHolder internal constructor(val binding: ImageViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String) {
-            Glide.with(binding.productImageIV.context).load(item).into(binding.productImageIV)
+
+            binding.productImageIV.loadImagesWithGlideExt(item)
+//            Glide.with(binding.productImageIV.context).load(item).into(binding.productImageIV)
         }
 
 

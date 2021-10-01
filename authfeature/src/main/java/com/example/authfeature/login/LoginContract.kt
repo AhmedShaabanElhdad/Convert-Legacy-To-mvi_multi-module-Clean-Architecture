@@ -12,11 +12,13 @@ class LoginContract {
 
     sealed class LoginEvent : UiEvent {
         class login(val username:String,val password:String): LoginEvent()
+        object refreshToken: LoginEvent()
     }
 
     sealed class LoginViewState {
         object Idle : LoginViewState()
         object Loading : LoginViewState()
+        object showPage : LoginViewState()
         data class Success(val profile: Profile) : LoginViewState()
         data class LoginFormState (val usernameError: Int? = null, val passwordError: Int? = null):LoginViewState()
     }

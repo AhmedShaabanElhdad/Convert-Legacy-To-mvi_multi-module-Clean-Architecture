@@ -13,17 +13,21 @@
         tools:context="com.example.authfeature.login.LoginFragment">
 
 
+
+
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="144dp"
-            android:layout_marginEnd="14dp"
+            android:src="@drawable/halan_banner"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintDimensionRatio="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <EditText
@@ -32,9 +36,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
-            android:layout_marginBottom="20dp"
             android:hint="@string/user_name"
             android:textStyle="bold"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@id/imageView"
             app:layout_constraintBottom_toTopOf="@+id/password_et"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -45,11 +53,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
-            android:layout_marginBottom="92dp"
             android:hint="@string/password"
             android:textStyle="bold"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             app:layout_constraintBottom_toTopOf="@+id/login_button"
             app:layout_constraintEnd_toEndOf="@+id/username_et"
+            app:layout_constraintTop_toBottomOf="@id/username_et"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/username_et" />
 
@@ -67,5 +77,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/linear_loading"
+            android:gravity="center"
+            android:focusable="false"
+            android:translationZ="500dp"
+            android:background="@color/white">
+
+            <ProgressBar
+                android:id="@+id/gifLoad"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

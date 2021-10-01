@@ -4,6 +4,8 @@ import com.example.domain.usecase.LoginUseCase
 import com.example.domain.repository.ProductRepo
 import com.example.domain.repository.UserRepo
 import com.example.domain.usecase.GetProductUseCase
+import com.example.domain.usecase.LogoutUseCase
+import com.example.domain.usecase.RefreshTokenUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +31,22 @@ object UseCaseModule {
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
         userRepo: UserRepo
     ): LoginUseCase = LoginUseCase(ioDispatcher,userRepo )
+
+
+    @Singleton
+    @Provides
+    fun providesRefreshTokenUseCase(
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        userRepo: UserRepo
+    ): RefreshTokenUseCase = RefreshTokenUseCase(ioDispatcher,userRepo )
+
+
+    @Singleton
+    @Provides
+    fun providesLogoutUseCase(
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        userRepo: UserRepo
+    ): LogoutUseCase = LogoutUseCase(userRepo)
 
 
 
