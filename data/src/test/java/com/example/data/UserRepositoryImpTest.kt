@@ -69,9 +69,6 @@ class UserRepositoryImpTest {
             // Expect ViewState.Success
             val expected = expectItem()
 
-//            Truth.assertThat(expected).isInstanceOf(ViewState.Error::class.java)
-//            val expectedData = (expected as ViewState.Error).error
-//            Truth.assertThat(expectedData).isEmpty()
             Truth.assertThat(expected).isInstanceOf(ViewState.Success::class.java)
             val expectedData = (expected as ViewState.Success).data
             Truth.assertThat(expectedData).isSameInstanceAs(profile)
