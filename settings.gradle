@@ -1,0 +1,9 @@
+rootProject.name = "HalanChallenge"
+include ':app'
+include ':data'
+include ':entity'
+include ':domain'
+include ':navigation'
+include ':authfeature'
+include ':productfeature'
+include ':common_ui'

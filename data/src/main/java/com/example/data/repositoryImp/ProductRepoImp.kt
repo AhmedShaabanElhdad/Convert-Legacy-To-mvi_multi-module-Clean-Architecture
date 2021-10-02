@@ -30,7 +30,7 @@ class ProductRepoImp @Inject constructor(
                     if (response.code() == 200 && this.status == "OK") {
                         emit(ViewState.Success(this.products))
                     } else
-                        emit(ViewState.Error(response.message()))
+                        emit(ViewState.Error(this.message))
                 }
 
             } catch (e: Exception) {

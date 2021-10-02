@@ -1,12 +1,11 @@
-package com.example.entity;
+package com.example.entity
 
-import java.io.Serializable;
+import java.io.Serializable
 
-public class Profile implements Serializable {
-    public String username;
-    public String image;
-    public String name;
-    public String phone;
-    public String email;
-}
-
+data class Profile(
+    var username: String? = null,
+    var image: String? = null,
+    var name: String? = null,
+    var phone: String? = null,
+    var email: String? = null,
+) : Serializable
