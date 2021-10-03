@@ -99,7 +99,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 when (it) {
                     is LoginContract.LoginEffect.Error -> {
                         hideLoading()
-                        showToast("Error")
+                        showToast(it.message)
                     }
                 }
             }

@@ -24,7 +24,7 @@ class LoginContract {
     }
 
     sealed class LoginEffect : UiEffect {
-        object Error : LoginEffect()
+        data class  Error(val message:String) : LoginEffect()
     }
 
 }
