@@ -49,4 +49,23 @@ dependencies {
     implementation 'androidx.test.ext:junit-ktx:1.1.3'
     androidTestImplementation 'junit:junit:4.12'
     kapt "com.google.dagger:hilt-android-compiler:2.37"
+
+
+
+
+    // Test
+    testImplementation "junit:junit:$junitVersion"
+    // testImplementation for pure JVM unit tests
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
+    // Run Blocking Test
+    testImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+    // Truth
+    testImplementation "com.google.truth:truth:$truthVersion"
+    // For small test - large test annotations
+    testImplementation "androidx.test:runner:$testRunnerVersion"
+    // Mock objects
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    // For Flow test
+    testImplementation "app.cash.turbine:turbine:$turbineVersion"
+
 }

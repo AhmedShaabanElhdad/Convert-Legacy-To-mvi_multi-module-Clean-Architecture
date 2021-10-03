@@ -3,7 +3,10 @@ package com.example.data
 import androidx.test.filters.SmallTest
 import app.cash.turbine.test
 import com.example.data.network.HalanService
+import com.example.data.pref.PASSWORD
 import com.example.data.pref.SharedPref
+import com.example.data.pref.TOKEN
+import com.example.data.pref.USERNAME
 import com.example.data.repositoryImp.UserRepoImp
 import com.example.data.response.LoginResponse
 import com.example.data.utils.TestDataGenerator
@@ -19,7 +22,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.any
 import retrofit2.Response
 import kotlin.time.ExperimentalTime
 
@@ -55,11 +57,14 @@ class UserRepositoryImpTest {
         val password = ""
 
         // Given
-        coEvery { apiService.login(username,password) } returns Response.success(200, LoginResponse(status = "OK",profile = profile))
+        coEvery { apiService.login(username, password) } returns Response.success(
+            200,
+            LoginResponse(status = "OK", profile = profile)
+        )
 
 
         // When & Assertions
-        val flow = repository.login(LoginRequstParams(username,password))
+        val flow = repository.login(LoginRequstParams(username, password))
         flow.test {
 
             // Expect ViewState.Loading
@@ -76,22 +81,17 @@ class UserRepositoryImpTest {
         }
 
         // Then
-        coVerify { apiService.login("","") }
+        coVerify { apiService.login("", "") }
     }
-
 
 
     @Test
     fun test_login_with_incorrect_cradential_success() = runBlockingTest {
-
-
-        val profile = TestDataGenerator.generateProfile()
-
-        coEvery { apiService.login(any(),any()) } throws Exception()
+        coEvery { apiService.login(any(), any()) } throws Exception()
 
 
         // When & Assertions
-        val flow = repository.login(LoginRequstParams("",""))
+        val flow = repository.login(LoginRequstParams("", ""))
         flow.test {
 
             // Expect ViewState.Loading
@@ -105,7 +105,38 @@ class UserRepositoryImpTest {
         }
 
         // Then
-        coVerify { apiService.login("","") }
+        coVerify { apiService.login("", "") }
+    }
+
+
+    @Test
+    fun test_refresh_with_empty_cradential_success() = runBlockingTest {
+
+        val profile = TestDataGenerator.generateProfile()
+        coEvery { apiService.login("AhmedShaaban", "Ahmed5") } returns Response.success(
+            200,
+            LoginResponse(status = "OK", profile = profile)
+        )
+        coEvery { pref.load(USERNAME, "") } returns "AhmedShaaban"
+        coEvery { pref.load(PASSWORD, "") } returns "Ahmed5"
+
+
+        // When & Assertions
+        val flow = repository.refreshToken()
+        flow.test {
+            // Expect ViewState.Success
+            val expected = expectItem()
+            Truth.assertThat(expected).isInstanceOf(ViewState.Success::class.java)
+            val expectedData = (expected as ViewState.Success).data
+            Truth.assertThat(expectedData).isSameInstanceAs(profile)
+            expectComplete()
+        }
+
+        // Then
+        coVerify {
+            apiService.login(pref.load(USERNAME, ""), pref.load(PASSWORD, ""))
+        }
+//        coVerify { apiService.login("AhmedShaaban", "Ahmed5") }
     }
 
 }

@@ -51,7 +51,7 @@ class UserRepoImp @Inject constructor(
                 if (username.isEmpty() || password.isEmpty())
                     emit(ViewState.Error("Error"))
                 else {
-                    val response = service.login(username =username, password = password)
+                    val response = service.login(username = username, password = password)
                     response.body()?.apply {
                         if (response.code() == 200 && this.status == "OK") {
                             saveToken(this.token)

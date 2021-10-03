@@ -23,7 +23,7 @@ class GetProductContract {
     }
 
     sealed class GetProductEffect : UiEffect {
-        object Error : GetProductEffect()
+        data class Error(val message:String) : GetProductEffect()
     }
 
 }

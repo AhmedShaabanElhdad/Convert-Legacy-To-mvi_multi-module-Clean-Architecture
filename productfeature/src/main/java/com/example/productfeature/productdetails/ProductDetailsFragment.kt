@@ -27,7 +27,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
         binding = FragmentProductDetailsBinding.bind(view)
 
-        val product:Product = args.product
+        val product: Product = args.product
 
         binding.materialButton.setOnClickListener { goBack() }
 
@@ -36,7 +36,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         binding.productDescriptionTv.movementMethod = ScrollingMovementMethod()
         //todo make mapper class from model entity to view entity
         binding.productPriceTv.text = "كاش" + "           " + product.price + "جنيه"
-        val imagesAdapter: ImagesAdapter = ImagesAdapter(product.images)
+        val imagesAdapter: ImagesAdapter = ImagesAdapter(product.images ?: listOf())
         binding.productImagesBanner.adapter = imagesAdapter
         binding.arIndicator.attachTo(binding.productImagesBanner, true)
     }

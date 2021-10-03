@@ -65,7 +65,7 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
         val profile = getProfileData()
         profile?.let {
 
-            binding.userIv.loadImagesWithGlideExt(it.image)
+            binding.userIv.loadImagesWithGlideExt(it.image ?:"")
             binding.usernameTv.text = it.name
             binding.phoneNumberTv.text = it.phone
 //            binding.emailTv.text = it.email
@@ -112,7 +112,7 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list){
                 when (it) {
                     is GetProductContract.GetProductEffect.Error -> {
                         hideLoading()
-                        showToast("Error")
+                        showToast(it.message)
                     }
                 }
             }

@@ -59,7 +59,7 @@ class ProductsAdapter internal constructor(data: List<Product>, val click: (Prod
 
             if (item != null) {
                 binding.productItemTitleTv.text = item.name_ar
-                binding.productIv.loadImagesWithGlideExt(item.image)
+                binding.productIv.loadImagesWithGlideExt(item.image ?:"")
             }
 
             binding.root.setOnClickListener {

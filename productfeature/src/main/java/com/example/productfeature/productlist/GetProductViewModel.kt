@@ -60,7 +60,7 @@ class GetProductViewModel @Inject constructor(
                         )
                     }
                     is ViewState.Loading -> setState { copy(GetProductViewState = GetProductContract.GetProductViewState.Loading) }
-                    is ViewState.Error -> setEffect { GetProductContract.GetProductEffect.Error }
+                    is ViewState.Error -> setEffect { GetProductContract.GetProductEffect.Error(it.error) }
                 }
             }
         }
