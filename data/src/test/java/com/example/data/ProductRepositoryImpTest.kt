@@ -2,7 +2,7 @@ package com.example.data
 
 import androidx.test.filters.SmallTest
 import app.cash.turbine.test
-import com.example.data.network.HalanService
+import com.example.data.network.ChallangeService
 import com.example.data.pref.SharedPref
 import com.example.data.pref.TOKEN
 import com.example.data.repositoryImp.ProductRepoImp
@@ -28,7 +28,7 @@ import kotlin.time.ExperimentalTime
 class ProductRepositoryImpTest {
 
     @MockK
-    private lateinit var apiService: HalanService
+    private lateinit var apiService: ChallangeService
 
     @MockK
     private lateinit var pref: SharedPref

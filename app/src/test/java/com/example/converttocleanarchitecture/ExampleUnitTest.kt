@@ -1,4 +1,4 @@
-package com.example.halanchallenge
+package com.example.converttocleanarchitecture
 
 import org.junit.Test
 

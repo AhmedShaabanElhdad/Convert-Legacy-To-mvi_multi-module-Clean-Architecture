@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 
-const val PREFERENCES_NAME = "Halan"
+const val PREFERENCES_NAME = "TestingPref"
 const val TOKEN = "token"
 const val USERNAME = "username"
 const val PASSWORD = "password"

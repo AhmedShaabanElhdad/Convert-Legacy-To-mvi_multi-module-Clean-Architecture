@@ -19,7 +19,7 @@
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/halan_banner"
+            android:src="@drawable/banner"
             android:adjustViewBounds="true"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"

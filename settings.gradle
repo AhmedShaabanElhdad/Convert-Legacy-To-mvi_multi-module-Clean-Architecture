@@ -1,4 +1,4 @@
-rootProject.name = "HalanChallenge"
+rootProject.name = "Challenge"
 include ':app'
 include ':data'
 include ':entity'

@@ -1,8 +1,8 @@
-package com.example.halanchallenge
+package com.example.converttocleanarchitecture
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class HalanApp:Application() {
+class MyApp:Application() {
 }

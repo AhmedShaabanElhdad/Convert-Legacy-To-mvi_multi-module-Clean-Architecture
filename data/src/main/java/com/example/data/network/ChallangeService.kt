@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
-interface HalanService {
+interface ChallangeService {
 
 //    @Headers("Content-Type: application/json")
     @FormUrlEncoded

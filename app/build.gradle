@@ -10,7 +10,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.example.halanchallenge"
+        applicationId "com.example.converttocleanarchitecture"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

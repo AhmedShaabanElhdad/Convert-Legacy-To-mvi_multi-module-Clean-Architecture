@@ -1,7 +1,7 @@
-package com.example.halanchallenge.di
+package com.example.converttocleanarchitecture.di
 
-import com.example.data.network.HalanService
-import com.example.halanchallenge.HalanApp
+import com.example.data.network.ChallangeService
+import com.example.converttocleanarchitecture.MyApp
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -25,13 +25,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient): HalanService {
+    fun provideRetrofit(client: OkHttpClient): ChallangeService {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .client(client)
             .build()
-            .create(HalanService::class.java)
+            .create(ChallangeService::class.java)
     }
 
 //    @Singleton
@@ -64,7 +64,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpCache(application: HalanApp): Cache {
+    fun provideOkHttpCache(application: MyApp): Cache {
         val cacheSize: Long = 10 * 1024 * 1024; // 10 MiB
         return Cache(application.cacheDir, cacheSize);
     }

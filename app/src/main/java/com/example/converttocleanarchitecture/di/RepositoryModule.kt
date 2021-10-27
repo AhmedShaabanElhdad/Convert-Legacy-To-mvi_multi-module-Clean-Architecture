@@ -1,6 +1,6 @@
-package com.example.halanchallenge.di
+package com.example.converttocleanarchitecture.di
 
-import com.example.data.network.HalanService
+import com.example.data.network.ChallangeService
 import com.example.data.pref.SharedPref
 import com.example.data.repositoryImp.ProductRepoImp
 import com.example.data.repositoryImp.UserRepoImp
@@ -19,7 +19,7 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideUserRepository(
-        service: HalanService,
+        service: ChallangeService,
         pref: SharedPref
     ): UserRepo {
         return UserRepoImp(service, pref)
@@ -28,7 +28,7 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideProductRepo(
-        service: HalanService,
+        service: ChallangeService,
         pref: SharedPref
     ): ProductRepo {
         return ProductRepoImp(service, pref)

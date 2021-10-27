@@ -1,6 +1,6 @@
 package com.example.data.repositoryImp
 
-import com.example.data.network.HalanService
+import com.example.data.network.ChallangeService
 import com.example.data.pref.PASSWORD
 import com.example.data.pref.SharedPref
 import com.example.data.pref.TOKEN
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class UserRepoImp @Inject constructor(
-    private val service: HalanService,
+    private val service: ChallangeService,
     private val pref: SharedPref
 ) : UserRepo {
     override fun login(params: LoginRequstParams): Flow<ViewState<Profile>> {

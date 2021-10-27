@@ -90,7 +90,6 @@ class LoginViewModel @Inject constructor(
                         )
                     }
                     is ViewState.Error -> setState { copy(loginViewState = LoginContract.LoginViewState.showPage) }
-                    else -> setState { copy(loginViewState = LoginContract.LoginViewState.showPage) }
                 }
             }
         }
@@ -111,7 +110,7 @@ class LoginViewModel @Inject constructor(
                         )
                     }
                     is ViewState.Loading -> setState { copy(loginViewState = LoginContract.LoginViewState.Loading) }
-                    is ViewState.Error -> setEffect { LoginContract.LoginEffect.Error }
+                    is ViewState.Error -> setEffect { LoginContract.LoginEffect.Error(it.error) }
                 }
             }
         }
